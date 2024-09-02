@@ -1,4 +1,6 @@
 import { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 interface FormData {
@@ -9,6 +11,10 @@ interface FormData {
 }
 
 const Register: NextPage = () => {
+  const router = useRouter()
+
+  const [error, setError] = useState('')
+
   const {
     register,
     handleSubmit,
@@ -28,7 +34,7 @@ const Register: NextPage = () => {
 
           //when user submitted form all fields should be empty:
 
-          e?.target.reset()
+          // e?.target.reset()
 
           const { username, email, password } = data
 
@@ -50,6 +56,14 @@ const Register: NextPage = () => {
             const data = await res.json()
 
             console.log(data.user)
+
+            if (res.ok) {
+              router.push('/login')
+              setError('')
+            } else {
+              console.error('Registration failed')
+              setError('registeration failed')
+            }
           } catch (err) {
             console.log(err)
           }
@@ -155,6 +169,8 @@ const Register: NextPage = () => {
         <br />
 
         <button type='submit'>Registeration</button>
+
+        <h1 style={{ color: 'red' }}>{error && error}</h1>
       </form>
     </section>
   )
