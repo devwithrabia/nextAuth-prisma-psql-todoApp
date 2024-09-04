@@ -1,27 +1,29 @@
-import { PrismaClient } from '@prisma/client'
+// import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
+// //seed is only used to test any website or for initial testing,by putting initial values :
 
-async function main() {
-  const user = await prisma.user.upsert({
-    where: { email: 'test@test.com' },
-    update: {},
-    create: {
-      email: 'test@test.com',
-      username: 'Test User',
-      password: 'mynameisrabia'
-    }
-  })
+// const prisma = new PrismaClient()
 
-  console.log({ user })
-}
+// async function main() {
+//   const user = await prisma.user.upsert({
+//     where: { email: 'test@test.com' },
+//     update: {},
+//     create: {
+//       email: 'test@test.com',
+//       username: 'Test User',
+//       password: 'mynameisrabia'
+//     }
+//   })
 
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async e => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+//   console.log({ user })
+// }
+
+// main()
+//   .then(async () => {
+//     await prisma.$disconnect()
+//   })
+//   .catch(async e => {
+//     console.error(e)
+//     await prisma.$disconnect()
+//     process.exit(1)
+//   })
