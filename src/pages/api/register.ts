@@ -16,15 +16,6 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(409).json({ user: null, message: 'User with this email already exists' })
     }
 
-    //check if username already exist:
-    const existUserByUsername = await prisma.user.findUnique({
-      where: { username: username }
-    })
-
-    if (existUserByUsername) {
-      return res.status(409).json({ user: null, message: 'User with this username already exists' })
-    }
-
     //hashing the password
     const hashedPassword = await bcrypt.hash(password, 5)
 

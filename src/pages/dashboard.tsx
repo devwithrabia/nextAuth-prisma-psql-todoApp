@@ -11,9 +11,9 @@ const DashBoard: NextPage<IProps> = ({ user }) => {
   console.log({ user })
   if (user) {
     return (
-      <div>
-        welcome to home page and i am {user.username}and my email is {user.email}
-      </div>
+      <h1 style={{ color: 'darkgreen' }}>
+        welcome to Dashboard page and i am {user.username} and my email is {user.email}
+      </h1>
     )
   }
   return <div>please login to see this page</div>
@@ -21,15 +21,17 @@ const DashBoard: NextPage<IProps> = ({ user }) => {
 
 export default DashBoard
 
+//here we are getting session from server:
+
 export const getServerSideProps: GetServerSideProps<IProps> = async context => {
   const session = await getServerSession(context.req, context.res, authOptions)
 
-  console.log(session)
+  // console.log(session)
 
   if (!session) {
     return {
       redirect: {
-        destination: '/',
+        destination: '/login',
         permanent: false
       }
     }

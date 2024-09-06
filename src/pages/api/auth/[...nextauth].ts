@@ -59,19 +59,26 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, session, trigger }) {
+      //insert updated user in token:
+
+      if (trigger === 'update' && session?.username) {
+        token.username = session.username
+      }
+
       if (user) {
+        //insert user in token:
         return {
           ...token,
 
-          //here we are going to insert username in session so we have to tell username type in next-auth.d.ts file:
+          //here we are going to insert username in token so we have to tell username type in next-auth.d.ts file:
           username: user.username
         }
       }
 
       return token
     },
-
+    //insert token in session:
     async session({ session, token }) {
       return {
         ...session,
