@@ -11,7 +11,7 @@ interface FormData {
 }
 
 export const UpdateUserInfo: FC = () => {
-  const { data: session, update: sessionUpdate } = useSession()
+  const { data: session } = useSession()
 
   // console.log(session)
   const router = useRouter()
@@ -52,8 +52,6 @@ export const UpdateUserInfo: FC = () => {
             const data = await res.json()
 
             // console.log(data.update.username)
-
-            sessionUpdate({ username: data.update.username })
 
             // if (res.ok) {
             //   router.push('/login')

@@ -12,7 +12,7 @@ const DashBoard: NextPage<IProps> = ({ user }) => {
   if (user) {
     return (
       <h1 style={{ color: 'darkgreen' }}>
-        welcome to Dashboard page and i am {user.username} and my email is {user.email}
+        welcome to Dashboard page and i am {user.name} and my email is {user.email}
       </h1>
     )
   }

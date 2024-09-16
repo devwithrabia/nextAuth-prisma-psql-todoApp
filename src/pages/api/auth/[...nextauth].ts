@@ -1,8 +1,10 @@
 import CredentialsProvider from 'next-auth/providers/credentials'
-import NextAuth, { type NextAuthOptions } from 'next-auth'
+import NextAuth, { User, type NextAuthOptions, Awaitable } from 'next-auth'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@/lib/db'
 import bcrypt from 'bcryptjs'
+import { JWT } from 'next-auth/jwt'
+import { Session } from 'inspector'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -19,10 +21,8 @@ export const authOptions: NextAuthOptions = {
 
   providers: [
     CredentialsProvider({
-      name: 'Sign in',
-
       credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'hello@example.com' },
+        email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' }
       },
 
@@ -47,7 +47,10 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
-        // we have little information in token ,so we get complete user information for session,so we should return user:
+        //we should return user matching with login credentials,so this user will be normal user,which is in jwt func,
+        //if we dont return it user cant login
+
+        //this all properties will go in user object
 
         return {
           id: existingUser.id + '',
@@ -59,34 +62,31 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, user, session, trigger }) {
+    //we have to save updated user in token not normal user:
+    async jwt({ token, user }) {
+      console.log(user)
       //insert updated user in token:
 
-      if (trigger === 'update' && session?.username) {
-        token.username = session.username
+      const email = token.email || user.email
+
+      if (!email) {
+        return {}
       }
 
-      if (user) {
-        //insert user in token:
+      const getUpdatedUser = await prisma.user.findUnique({ where: { email }, select: { email: true, username: true } })
+
+      if (getUpdatedUser) {
         return {
           ...token,
-
-          //here we are going to insert username in token so we have to tell username type in next-auth.d.ts file:
-          username: user.username
+          name: getUpdatedUser.username
         }
       }
 
       return token
     },
     //insert token in session:
-    async session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          username: token.username
-        }
-      }
+    async session({ session }) {
+      return session
     }
   }
 }
