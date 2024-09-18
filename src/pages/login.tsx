@@ -53,7 +53,7 @@ const Register: NextPage = () => {
       <Box
         display='flex'
         flexDirection='column'
-        alignItems='center'
+        gap='30px'
         maxWidth={500}
         margin='auto'
         marginTop={5}
@@ -66,12 +66,13 @@ const Register: NextPage = () => {
           }
         }}
       >
-        <Typography variant='h4'>Login</Typography>
+        <Typography variant='h4' margin='auto'>
+          Login
+        </Typography>
 
         {errors?.email && <small style={{ color: 'red' }}>{errors.email.message}</small>}
 
         <TextField
-          margin='normal'
           variant='outlined'
           type='email'
           id='email'
@@ -90,7 +91,6 @@ const Register: NextPage = () => {
         {errors?.password && <small style={{ color: 'red' }}>{errors.password.message}</small>}
 
         <TextField
-          margin='normal'
           variant='outlined'
           type='password'
           id='password'
@@ -102,17 +102,15 @@ const Register: NextPage = () => {
             }
           })}
         />
-        <br />
 
         <Link href={'/forgot-password'} style={{ color: 'red' }}>
           Forgot Your Password?
         </Link>
-        <br />
-        <br />
 
-        <Button type='submit' variant='contained' sx={{ marginTop: 3, borderRadius: 3 }}>
-          Registeration
+        <Button type='submit' variant='contained' sx={{ borderRadius: 3 }}>
+          Login
         </Button>
+
         <h1 style={{ color: 'red' }}>{error && error}</h1>
       </Box>
     </form>

@@ -5,13 +5,11 @@ import { NextPage } from 'next'
 const EditProfile: NextPage = () => {
   return (
     <>
-      <div>
-        <h1>Update User Information</h1>
+      <div style={{ height: '35vh' }}>
         <UpdateUserInfo />
       </div>
 
-      <div>
-        <h1>Update User Password</h1>
+      <div style={{ height: '40vh' }}>
         <UpdateUserPassword />
       </div>
     </>

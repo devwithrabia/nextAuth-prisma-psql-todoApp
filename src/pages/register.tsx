@@ -68,7 +68,6 @@ const Register: NextPage = () => {
       <Box
         display='flex'
         flexDirection='column'
-        alignItems='center'
         maxWidth={500}
         margin='auto'
         marginTop={5}
@@ -81,7 +80,9 @@ const Register: NextPage = () => {
           }
         }}
       >
-        <Typography variant='h4'>Registeration</Typography>
+        <Typography variant='h4' margin='auto'>
+          Registeration
+        </Typography>
 
         {errors?.username && <small style={{ color: 'red' }}>{errors.username.message}</small>}
 

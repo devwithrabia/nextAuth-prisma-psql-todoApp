@@ -51,7 +51,7 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
         resetAt: new Date()
       }
     })
-
+    //when user changed password token's resetAt property should be update
     // await prisma.$transaction([updatePassword, updateToken])
     return res
       .status(200)
