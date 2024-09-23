@@ -64,7 +64,7 @@ const PasswordReset: NextPage<ParsedUrlQuery> = ({ token }) => {
         gap='30px'
         maxWidth={500}
         margin='auto'
-        marginTop={5}
+        marginTop='100px'
         padding={5}
         borderRadius={5}
         boxShadow={'5px 5px 10px #ccc'}
