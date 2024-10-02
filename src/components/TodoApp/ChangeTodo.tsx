@@ -1,23 +1,19 @@
 import { FC, FormEvent, useEffect, useState } from 'react'
 import { Input } from './Input'
 import Form from './Form'
+import EditSharpIcon from '@mui/icons-material/EditSharp'
 import Button from './Button'
+import ChangeCircleSharpIcon from '@mui/icons-material/ChangeCircleSharp'
+import { IconButton } from '@mui/material'
+import { GetData } from '@/types'
 
-// interface IProps {
-//   todoId: string
-//   // setIsEdit: React.Dispatch<React.SetStateAction<boolean>>
-// }
-
-interface IProps {
-  title: string | null
-  id: string
-  isCompleted: boolean
-}
 interface TodoProps {
-  todo: IProps
+  todo: GetData
+  todos: GetData[]
+  setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
 }
 
-const ChangeTodo: FC<TodoProps> = ({ todo }) => {
+const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos }) => {
   const [input, setInput] = useState<string>('')
   const [edit, setIsEdit] = useState(false)
 
@@ -29,7 +25,7 @@ const ChangeTodo: FC<TodoProps> = ({ todo }) => {
   }
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
-    // e.preventDefault()
+    e.preventDefault()
 
     setInput('')
 
@@ -46,8 +42,22 @@ const ChangeTodo: FC<TodoProps> = ({ todo }) => {
       })
 
       const data = await res.json()
+      const changeTodo = data.changeTodo
 
-      console.log(data.update)
+      console.log(data.changeTodo)
+
+      setTodos(
+        todos.map(item => {
+          if (item.id === changeTodo.id) {
+            return {
+              ...item,
+              title: changeTodo.title
+            }
+          }
+
+          return item
+        })
+      )
 
       setIsEdit(false)
     } catch (err) {
@@ -56,17 +66,28 @@ const ChangeTodo: FC<TodoProps> = ({ todo }) => {
   }
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <button onClick={editHandler}>edit</button>
+      <button
+        onClick={editHandler}
+        style={{ backgroundColor: 'lightslategray', color: 'darkred', border: 'none', cursor: 'pointer' }}
+      >
+        <EditSharpIcon />
+      </button>
+
       {edit && (
-        <Form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} style={{ display: 'flex' }}>
           <Input
             type='text'
             placeholder='type your text here..'
             value={input}
             onChange={e => setInput(e.target.value)}
           />
-          <Button type='submit' text='Change' />
-        </Form>
+          <button
+            type='submit'
+            style={{ backgroundColor: 'lightslategray', color: 'darkred', border: 'none', cursor: 'pointer' }}
+          >
+            UpdateTodo
+          </button>
+        </form>
       )}
     </div>
   )

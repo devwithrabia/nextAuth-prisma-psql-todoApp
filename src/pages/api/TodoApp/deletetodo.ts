@@ -12,7 +12,7 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     })
 
-    return res.status(201).json({ message: 'delete todo successfully' })
+    return res.status(201).json({ message: 'delete todo successfully', deleteTodo: deleteTodo })
   } catch (error) {
     console.log(error)
 

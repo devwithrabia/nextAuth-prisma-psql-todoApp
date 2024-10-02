@@ -20,3 +20,8 @@ export interface buttonProps {
   actionButton?: boolean
   bgColor?: string
 }
+export interface GetData {
+  id: string
+  title: string | null
+  isCompleted: boolean
+}

@@ -1,13 +1,18 @@
 import { FC, FormEvent, useState } from 'react'
 import Button from './Button'
-import { Input } from './Input'
-import Form from './Form'
-//here we use simple form instead of react hook form
-const AddTodo: FC = () => {
+import { TextField } from '@mui/material'
+import { GetData } from '@/types'
+
+interface IProps {
+  todos: GetData[]
+  setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
+}
+
+const AddTodo: FC<IProps> = ({ todos, setTodos }) => {
   const [input, setInput] = useState<string>('')
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
-    // e.preventDefault()
+    e.preventDefault()
 
     setInput('')
 
@@ -22,7 +27,11 @@ const AddTodo: FC = () => {
         })
       })
 
-      // const data = await res.json()
+      const data = await res.json()
+      const addItem = data.createTodo
+      console.log(addItem)
+
+      setTodos([...todos, addItem])
 
       // console.log(data.todo)
 
@@ -39,12 +48,17 @@ const AddTodo: FC = () => {
   }
 
   return (
-    <div>
-      <Form onSubmit={submitHandler}>
-        <Input type='text' placeholder='type your text here..' value={input} onChange={e => setInput(e.target.value)} />
-        <Button type='submit' text='Add' />
-      </Form>
-    </div>
+    <form onSubmit={submitHandler} style={{ display: 'flex', width: '70%' }}>
+      <TextField
+        type='text'
+        variant='filled'
+        placeholder='type your text here..'
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        sx={{ flex: '1' }}
+      />
+      <Button type='submit' text='Add' />
+    </form>
   )
 }
 export default AddTodo

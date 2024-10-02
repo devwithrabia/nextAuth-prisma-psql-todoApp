@@ -21,7 +21,7 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     })
 
-    return res.status(201).json({ message: 'todo updated successfully', update: changeTodo })
+    return res.status(201).json({ message: 'todo updated successfully', changeTodo: changeTodo })
   } catch (error) {
     console.log(error)
 

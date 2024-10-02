@@ -6,7 +6,7 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
     const { todo } = req.body
 
     //change todo input in database:
-    const changeTodo = await prisma.todo.update({
+    const changeStatus = await prisma.todo.update({
       where: {
         id: todo.id
       },
@@ -15,7 +15,7 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     })
 
-    return res.status(201).json({ message: 'change status successfully' })
+    return res.status(201).json({ message: 'change status successfully', changeStatus: changeStatus })
   } catch (error) {
     console.log(error)
 

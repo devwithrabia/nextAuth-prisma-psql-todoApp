@@ -1,14 +1,17 @@
 import { FC, FormEvent } from 'react'
 import Form from './Form'
-import Button from './Button'
+import DeleteIcon from '@mui/icons-material/Delete'
+import { GetData } from '@/types'
 
-interface IProps {
+interface GetDataProps {
+  todos: GetData[]
   todoId: string
+  setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
 }
 
-const DeleteTodo: FC<IProps> = ({ todoId }) => {
+const DeleteTodo: FC<GetDataProps> = ({ todoId, todos, setTodos }) => {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
-    // e.preventDefault()
+    e.preventDefault()
 
     try {
       const res = await fetch('/api/TodoApp/deletetodo', {
@@ -22,8 +25,17 @@ const DeleteTodo: FC<IProps> = ({ todoId }) => {
       })
 
       const data = await res.json()
+      const deleteItem = data.deleteTodo
 
-      console.log(data.update)
+      // console.log(deleteItem)
+
+      setTodos(
+        todos.filter(item => {
+          if (item.id !== deleteItem.id) {
+            return item
+          }
+        })
+      )
     } catch (err) {
       console.log(err)
     }
@@ -31,7 +43,12 @@ const DeleteTodo: FC<IProps> = ({ todoId }) => {
   return (
     <div>
       <Form onSubmit={submitHandler}>
-        <Button type='submit' text='Delete' />
+        <button
+          type='submit'
+          style={{ backgroundColor: 'lightslategray', color: 'darkred', border: 'none', cursor: 'pointer' }}
+        >
+          <DeleteIcon />
+        </button>
       </Form>
     </div>
   )

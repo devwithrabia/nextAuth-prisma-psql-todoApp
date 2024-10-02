@@ -3,21 +3,14 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 const POST = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { input } = req.body
-    console.log(input)
-
-    if (!input) {
-      return null
-    }
-
-    //add todo input in database:
-    const createTodo = await prisma.todo.create({
-      data: {
-        title: input
+    //change todo input in database:
+    const deleteSelected = await prisma.todo.deleteMany({
+      where: {
+        isCompleted: true
       }
     })
 
-    return res.status(201).json({ message: 'todo created successfully', createTodo: createTodo })
+    return res.status(201).json({ message: 'delete selected todo successfully', deleteSelected: deleteSelected })
   } catch (error) {
     console.log(error)
 
