@@ -27,6 +27,7 @@ export const AppNavbar: FC = () => {
         <IconButton size='large' edge='start' color='inherit' aria-label='logo'>
           <LocalLibrary />
         </IconButton>
+        
         <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
           TodoApp
         </Typography>
