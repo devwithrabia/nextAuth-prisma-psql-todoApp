@@ -1,4 +1,5 @@
 import { GetData } from '@/types'
+import { Button, ButtonGroup } from '@mui/material'
 import { FC } from 'react'
 
 interface IProps {
@@ -9,11 +10,13 @@ interface IProps {
 
 const FilterButton: FC<IProps> = ({ showAll, showActive, resolvedTodo }) => {
   return (
-    <>
-      <button onClick={showActive}>Active</button>
-      <button onClick={showAll}>All</button>
-      <button onClick={resolvedTodo}>Resolved</button>
-    </>
+    <div style={{ borderTop: '1px solid rgba(0,0,0,.125)', width: '100%', textAlign: 'center', padding: '20px' }}>
+      <ButtonGroup variant='contained' aria-label='Basic button group'>
+        <Button onClick={showAll}>All</Button>
+        <Button onClick={showActive}> Active</Button>
+        <Button onClick={resolvedTodo}>resolved</Button>
+      </ButtonGroup>
+    </div>
   )
 }
 

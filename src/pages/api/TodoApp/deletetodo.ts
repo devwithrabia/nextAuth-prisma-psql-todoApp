@@ -3,12 +3,12 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 const POST = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { todoId } = req.body
+    const { todo } = req.body
 
     //change todo input in database:
     const deleteTodo = await prisma.todo.delete({
       where: {
-        id: todoId
+        id: todo.id
       }
     })
 

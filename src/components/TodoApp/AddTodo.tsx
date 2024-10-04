@@ -1,6 +1,5 @@
 import { FC, FormEvent, useState } from 'react'
-import Button from './Button'
-import { TextField } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 import { GetData } from '@/types'
 
 interface IProps {
@@ -48,16 +47,56 @@ const AddTodo: FC<IProps> = ({ todos, setTodos }) => {
   }
 
   return (
-    <form onSubmit={submitHandler} style={{ display: 'flex', width: '70%' }}>
-      <TextField
-        type='text'
-        variant='filled'
-        placeholder='type your text here..'
-        value={input}
-        onChange={e => setInput(e.target.value)}
-        sx={{ flex: '1' }}
-      />
-      <Button type='submit' text='Add' />
+    <form
+      onSubmit={submitHandler}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
+        width: '100%',
+        fontFamily: 'sans-serif',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderBottom: '1px solid rgba(0,0,0,.125)',
+        boxSizing: 'border-box',
+        paddingTop: '15px',
+        paddingBottom: '30px'
+      }}
+    >
+      <h1 style={{ textAlign: 'center', color: 'rgba(0, 0, 0, 0.85)', fontWeight: '500', fontSize: '40px', margin: 0 }}>
+        Todo App
+      </h1>
+
+      <div style={{ width: '100%', justifyContent: 'center', display: 'flex' }}>
+        <input
+          type='text'
+          placeholder='Type Your Todos Here..'
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          style={{
+            width: '80%',
+            color: '#495057',
+            height: '35px',
+            border: '1px solid #ced4da',
+            paddingLeft: '5px',
+            transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out'
+          }}
+        />
+
+        <button
+          type='submit'
+          style={{
+            backgroundColor: '#007bff',
+            border: 'none',
+            padding: '8px',
+            boxSizing: 'border-box',
+            borderBottomRightRadius: '5px',
+            borderTopRightRadius: '5px'
+          }}
+        >
+          <AddIcon fontSize='small' sx={{ backgroundColor: '#fff', color: '#007bff' }} />
+        </button>
+      </div>
     </form>
   )
 }

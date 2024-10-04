@@ -17,10 +17,10 @@ const TodoList: FC<IProps> = ({ todos, setTodos, todo, indx }) => {
       style={{
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: 'lightslategray',
-        boxShadow: '10px 10px 10px  #ccc',
-        padding: '5px',
-        boxSizing: 'border-box'
+        backgroundColor: todo.isCompleted ? 'rgb(195, 251, 165)' : 'rgb(200, 218, 247)',
+        boxSizing: 'border-box',
+        border: '1px solid #ced4da',
+        height: '40px'
       }}
       key={indx}
     >
@@ -29,10 +29,12 @@ const TodoList: FC<IProps> = ({ todos, setTodos, todo, indx }) => {
       <p
         style={{
           textDecoration: todo.isCompleted ? 'line-through' : 'none',
+          paddingLeft: '20px',
           flex: '1',
-          textAlign: 'center',
-          color: 'darkred',
-          fontWeight: '20px'
+          color: '#495057',
+          fontWeight: '400',
+          fontSize: '1rem',
+          fontFamily: 'sans-serif'
         }}
       >
         {todo.title}
@@ -40,7 +42,7 @@ const TodoList: FC<IProps> = ({ todos, setTodos, todo, indx }) => {
 
       <ChangeTodo todo={todo} todos={todos} setTodos={setTodos} />
 
-      <DeleteTodo todoId={todo.id} setTodos={setTodos} todos={todos} />
+      <DeleteTodo todo={todo} setTodos={setTodos} todos={todos} />
     </div>
   )
 }

@@ -1,10 +1,8 @@
 import { FC, FormEvent, useEffect, useState } from 'react'
-import { Input } from './Input'
-import Form from './Form'
-import EditSharpIcon from '@mui/icons-material/EditSharp'
-import Button from './Button'
-import ChangeCircleSharpIcon from '@mui/icons-material/ChangeCircleSharp'
-import { IconButton } from '@mui/material'
+import ChecklistRtlSharpIcon from '@mui/icons-material/ChecklistRtlSharp'
+import EditAttributesIcon from '@mui/icons-material/EditAttributes'
+import SecurityUpdateGoodIcon from '@mui/icons-material/SecurityUpdateGood'
+import EditIcon from '@mui/icons-material/Edit'
 import { GetData } from '@/types'
 
 interface TodoProps {
@@ -66,16 +64,9 @@ const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos }) => {
   }
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <button
-        onClick={editHandler}
-        style={{ backgroundColor: 'lightslategray', color: 'darkred', border: 'none', cursor: 'pointer' }}
-      >
-        <EditSharpIcon />
-      </button>
-
       {edit && (
         <form onSubmit={submitHandler} style={{ display: 'flex' }}>
-          <Input
+          <input
             type='text'
             placeholder='type your text here..'
             value={input}
@@ -83,12 +74,34 @@ const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos }) => {
           />
           <button
             type='submit'
-            style={{ backgroundColor: 'lightslategray', color: 'darkred', border: 'none', cursor: 'pointer' }}
+            style={{
+              cursor: 'pointer',
+              height: '40px',
+              width: '50px',
+              border: 'none',
+              backgroundColor: '#6c757d',
+              color: 'white'
+            }}
           >
-            UpdateTodo
+            <SecurityUpdateGoodIcon />
           </button>
         </form>
       )}
+
+      <button
+        onClick={editHandler}
+        style={{
+          backgroundColor: '#ffc107',
+          color: 'black',
+          border: 'none',
+          cursor: 'pointer',
+          textAlign: 'center',
+          height: '40px',
+          width: '50px'
+        }}
+      >
+        <EditIcon fontSize='small' />
+      </button>
     </div>
   )
 }

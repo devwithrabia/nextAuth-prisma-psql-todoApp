@@ -1,15 +1,15 @@
 import { FC, FormEvent } from 'react'
-import Form from './Form'
+import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { GetData } from '@/types'
 
 interface GetDataProps {
+  todo: GetData
   todos: GetData[]
-  todoId: string
   setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
 }
 
-const DeleteTodo: FC<GetDataProps> = ({ todoId, todos, setTodos }) => {
+const DeleteTodo: FC<GetDataProps> = ({ todo, todos, setTodos }) => {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -20,7 +20,7 @@ const DeleteTodo: FC<GetDataProps> = ({ todoId, todos, setTodos }) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          todoId
+          todo
         })
       })
 
@@ -42,14 +42,25 @@ const DeleteTodo: FC<GetDataProps> = ({ todoId, todos, setTodos }) => {
   }
   return (
     <div>
-      <Form onSubmit={submitHandler}>
+      <form onSubmit={submitHandler}>
         <button
           type='submit'
-          style={{ backgroundColor: 'lightslategray', color: 'darkred', border: 'none', cursor: 'pointer' }}
+          style={{
+            color: todo.isCompleted ? 'black' : '#fff',
+            backgroundColor: todo.isCompleted ? '#ffc107' : '#dc3545',
+            border: 'none',
+            borderBottomRightRadius: '5px',
+            borderTopRightRadius: '5px',
+            borderTopLeftRadius: 'none',
+            textAlign: 'center',
+            height: '40px',
+            width: '50px',
+            cursor: 'pointer'
+          }}
         >
-          <DeleteIcon />
+          <DeleteIcon fontSize='small' fontStyle='#ccc' />
         </button>
-      </Form>
+      </form>
     </div>
   )
 }

@@ -1,9 +1,9 @@
 import { FC, FormEvent } from 'react'
-import Form from './Form'
-import Button from './Button'
-import CheckSharpIcon from '@mui/icons-material/CheckSharp'
-import CloseSharpIcon from '@mui/icons-material/CloseSharp'
+
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { GetData } from '@/types'
+import { BorderColor } from '@mui/icons-material'
 
 interface TodoProps {
   todo: GetData
@@ -50,14 +50,35 @@ const ChangeStatus: FC<TodoProps> = ({ todo, todos, setTodos }) => {
   }
   return (
     <div>
-      <Form onSubmit={submitHandler}>
+      <form onSubmit={submitHandler}>
         <button
           type='submit'
-          style={{ backgroundColor: 'lightslategray', color: 'darkred', border: 'none', cursor: 'pointer' }}
+          style={{
+            backgroundColor: 'white',
+            cursor: 'pointer',
+            textAlign: 'center',
+            height: '40px',
+            width: '35px',
+            borderColor: todo.isCompleted ? 'rgb(195, 251, 165)' : 'rgb(200, 218, 247)',
+            borderRight: 'none'
+          }}
         >
-          {todo.isCompleted ? <CheckSharpIcon /> : <CloseSharpIcon />}
+          {todo.isCompleted ? (
+            <CheckCircleIcon
+              sx={{
+                color: 'rgb(108, 117, 125)',
+                BorderColor: '#17a2b8'
+              }}
+            />
+          ) : (
+            <RadioButtonUncheckedIcon
+              sx={{
+                color: '#17a2b8'
+              }}
+            />
+          )}
         </button>
-      </Form>
+      </form>
     </div>
   )
 }

@@ -1,8 +1,5 @@
 import AddTodo from '@/components/TodoApp/AddTodo'
-import ChangeStatus from '@/components/TodoApp/ChangeStatus'
-import ChangeTodo from '@/components/TodoApp/ChangeTodo'
 import DeleteSelected from '@/components/TodoApp/DeleteSelected'
-import DeleteTodo from '@/components/TodoApp/DeleteTodo'
 import FilterButton from '@/components/TodoApp/FilterButton'
 import TodoList from '@/components/TodoApp/TodoList'
 import { prisma } from '@/lib/db'
@@ -47,21 +44,18 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
   return (
     <>
-      <h1 style={{ textAlign: 'center' }}>Todo App</h1>
       <Box
         display='flex'
         flexDirection='column'
         alignItems='center'
-        gap='20px'
-        maxWidth={500}
+        maxWidth={550}
         marginTop='50px'
         margin='auto'
-        padding={5}
-        boxShadow={'5px 5px 10px #ccc'}
+        boxShadow='10px 10px 5px grey'
         sx={{
-          ':hover': {
-            boxShadow: '10px 10px 20px #ccc'
-          }
+          backgroundColor: ' rgba(0,0,0,.03)',
+          border: '1px solid rgba(0,0,0,.125)',
+          borderRadius: '0.25rem'
         }}
       >
         <AddTodo todos={todos} setTodos={setTodos} />
@@ -70,9 +64,11 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '20px',
-            padding: '10px',
-            width: '100%'
+            gap: '10px',
+            padding: '20px',
+            width: '100%',
+            backgroundColor: '#fff',
+            boxSizing: 'border-box'
           }}
         >
           {done !== null
@@ -84,9 +80,9 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             : todos.map((todo, indx) => {
                 return <TodoList todos={todos} setTodos={setTodos} todo={todo} indx={indx} />
               })}
-        </div>
 
-        <DeleteSelected todos={todos} setTodos={setTodos} />
+          <DeleteSelected todos={todos} setTodos={setTodos} />
+        </div>
 
         <FilterButton showAll={showAll} showActive={showActive} resolvedTodo={resolvedTodo} />
       </Box>
