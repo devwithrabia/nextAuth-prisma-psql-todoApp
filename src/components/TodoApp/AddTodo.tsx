@@ -91,7 +91,8 @@ const AddTodo: FC<IProps> = ({ todos, setTodos }) => {
             padding: '8px',
             boxSizing: 'border-box',
             borderBottomRightRadius: '5px',
-            borderTopRightRadius: '5px'
+            borderTopRightRadius: '5px',
+            cursor: 'pointer'
           }}
         >
           <AddIcon fontSize='small' sx={{ backgroundColor: '#fff', color: '#007bff' }} />
