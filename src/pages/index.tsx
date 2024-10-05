@@ -59,7 +59,6 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         }}
       >
         <AddTodo todos={todos} setTodos={setTodos} />
-
         <div
           style={{
             display: 'flex',
@@ -71,6 +70,8 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             boxSizing: 'border-box'
           }}
         >
+          {todos.length === 0 && <i>Add Bugs... Or Change View...</i>}
+
           {done !== null
             ? todos
                 .filter(todo => todo.isCompleted === done)
@@ -80,10 +81,8 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             : todos.map((todo, indx) => {
                 return <TodoList todos={todos} setTodos={setTodos} todo={todo} indx={indx} />
               })}
-
           <DeleteSelected todos={todos} setTodos={setTodos} />
         </div>
-
         <FilterButton showAll={showAll} showActive={showActive} resolvedTodo={resolvedTodo} />
       </Box>
     </>
