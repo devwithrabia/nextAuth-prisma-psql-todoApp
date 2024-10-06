@@ -26,6 +26,8 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
   const [done, setDone] = useState<boolean | null>()
 
+  const [message, setMessage] = useState('')
+
   useEffect(() => {
     setDone(null)
   }, [])
@@ -58,7 +60,8 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           borderRadius: '0.25rem'
         }}
       >
-        <AddTodo todos={todos} setTodos={setTodos} />
+        <AddTodo todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
+
         <div
           style={{
             display: 'flex',
@@ -76,12 +79,30 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
             ? todos
                 .filter(todo => todo.isCompleted === done)
                 .map((todo, indx) => {
-                  return <TodoList todos={todos} setTodos={setTodos} todo={todo} indx={indx} />
+                  return (
+                    <TodoList
+                      todos={todos}
+                      setTodos={setTodos}
+                      todo={todo}
+                      indx={indx}
+                      message={message}
+                      setMessage={setMessage}
+                    />
+                  )
                 })
             : todos.map((todo, indx) => {
-                return <TodoList todos={todos} setTodos={setTodos} todo={todo} indx={indx} />
+                return (
+                  <TodoList
+                    todos={todos}
+                    setTodos={setTodos}
+                    todo={todo}
+                    indx={indx}
+                    message={message}
+                    setMessage={setMessage}
+                  />
+                )
               })}
-          <DeleteSelected todos={todos} setTodos={setTodos} />
+          <DeleteSelected todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
         </div>
         <FilterButton showAll={showAll} showActive={showActive} resolvedTodo={resolvedTodo} />
       </Box>

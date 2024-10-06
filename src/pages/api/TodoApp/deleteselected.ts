@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 const POST = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     //change todo input in database:
+
     const deleteSelected = await prisma.todo.deleteMany({
       where: {
         isCompleted: true
