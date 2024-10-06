@@ -1,15 +1,30 @@
-import { FC, FormEvent } from 'react'
+import { CSSProperties, FC, FormEvent } from 'react'
 import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { GetData } from '@/types'
+import ShowMessagesButton from './ShowMessagesButton'
 
 interface GetDataProps {
   todo: GetData
   todos: GetData[]
   setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
+  message: string
+  setMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
-const DeleteTodo: FC<GetDataProps> = ({ todo, todos, setTodos }) => {
+const DeleteTodo: FC<GetDataProps> = ({ todo, todos, setTodos, message, setMessage }) => {
+  const deleteButtonStyle: CSSProperties = {
+    color: todo.isCompleted ? 'black' : '#fff',
+    backgroundColor: todo.isCompleted ? '#ffc107' : '#dc3545',
+    border: 'none',
+    borderBottomRightRadius: '5px',
+    borderTopRightRadius: '5px',
+    borderTopLeftRadius: 'none',
+    textAlign: 'center',
+    height: '40px',
+    width: '50px',
+    cursor: 'pointer'
+  }
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -27,8 +42,6 @@ const DeleteTodo: FC<GetDataProps> = ({ todo, todos, setTodos }) => {
       const data = await res.json()
       const deleteItem = data.deleteTodo
 
-      // console.log(deleteItem)
-
       setTodos(
         todos.filter(item => {
           if (item.id !== deleteItem.id) {
@@ -36,6 +49,10 @@ const DeleteTodo: FC<GetDataProps> = ({ todo, todos, setTodos }) => {
           }
         })
       )
+
+      if (res.status === 201) {
+        setMessage('Delete Todo')
+      }
     } catch (err) {
       console.log(err)
     }
@@ -43,23 +60,9 @@ const DeleteTodo: FC<GetDataProps> = ({ todo, todos, setTodos }) => {
   return (
     <div>
       <form onSubmit={submitHandler}>
-        <button
-          type='submit'
-          style={{
-            color: todo.isCompleted ? 'black' : '#fff',
-            backgroundColor: todo.isCompleted ? '#ffc107' : '#dc3545',
-            border: 'none',
-            borderBottomRightRadius: '5px',
-            borderTopRightRadius: '5px',
-            borderTopLeftRadius: 'none',
-            textAlign: 'center',
-            height: '40px',
-            width: '50px',
-            cursor: 'pointer'
-          }}
-        >
+        <ShowMessagesButton style={deleteButtonStyle} message={message}>
           <DeleteIcon fontSize='small' fontStyle='#ccc' />
-        </button>
+        </ShowMessagesButton>
       </form>
     </div>
   )

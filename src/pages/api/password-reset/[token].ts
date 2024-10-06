@@ -7,6 +7,7 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
     const { password } = req.body
 
     const token = req.query.token
+    console.log(token)
 
     // const { token } = req.query
 

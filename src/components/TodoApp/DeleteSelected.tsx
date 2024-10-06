@@ -1,11 +1,14 @@
-import { FC, FormEvent } from 'react'
+import { CSSProperties, FC, FormEvent } from 'react'
 import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { GetData } from '@/types'
+import ShowMessagesButton from './ShowMessagesButton'
 
 interface IProps {
   todos: GetData[]
   setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
+  message: string
+  setMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
 const styleButton = {
@@ -19,7 +22,7 @@ const styleButton = {
     color: 'white'
   }
 }
-const DeleteSelected: FC<IProps> = ({ todos, setTodos }) => {
+const DeleteSelected: FC<IProps> = ({ todos, setTodos, message, setMessage }) => {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -38,15 +41,19 @@ const DeleteSelected: FC<IProps> = ({ todos, setTodos }) => {
           }
         })
       )
+
+      if (res.status === 201) {
+        setMessage('Delet Selected todos')
+      }
     } catch (err) {
       console.log(err)
     }
   }
   return (
     <form onSubmit={submitHandler} style={{ width: '100%', fontWeight: '400', fontFamily: 'sans-serif' }}>
-      <Button variant='outlined' type='submit' sx={styleButton}>
+      <ShowMessagesButton style={styleButton} message={message}>
         Delete Selected
-      </Button>
+      </ShowMessagesButton>
     </form>
   )
 }

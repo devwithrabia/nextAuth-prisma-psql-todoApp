@@ -1,17 +1,38 @@
-import { FC, FormEvent, useEffect, useState } from 'react'
+import { CSSProperties, FC, FormEvent, useEffect, useState } from 'react'
 import ChecklistRtlSharpIcon from '@mui/icons-material/ChecklistRtlSharp'
 import EditAttributesIcon from '@mui/icons-material/EditAttributes'
 import SecurityUpdateGoodIcon from '@mui/icons-material/SecurityUpdateGood'
 import EditIcon from '@mui/icons-material/Edit'
 import { GetData } from '@/types'
+import ShowMessagesButton from './ShowMessagesButton'
 
 interface TodoProps {
   todo: GetData
   todos: GetData[]
   setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
+  message: string
+  setMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
-const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos }) => {
+const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessage }) => {
+  const editTodoStyle: CSSProperties = {
+    backgroundColor: '#ffc107',
+    color: 'black',
+    border: 'none',
+    cursor: 'pointer',
+    textAlign: 'center',
+    height: '40px',
+    width: '50px'
+  }
+
+  const updateTodoStyle: CSSProperties = {
+    cursor: 'pointer',
+    height: '40px',
+    width: '50px',
+    border: 'none',
+    backgroundColor: '#6c757d',
+    color: 'white'
+  }
   const [input, setInput] = useState<string>('')
   const [edit, setIsEdit] = useState(false)
 
@@ -57,7 +78,9 @@ const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos }) => {
         })
       )
 
-      setIsEdit(false)
+      if (res.status === 201) {
+        setMessage('Todo Updated')
+      }
     } catch (err) {
       console.log(err)
     }
@@ -72,34 +95,14 @@ const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos }) => {
             value={input}
             onChange={e => setInput(e.target.value)}
           />
-          <button
-            type='submit'
-            style={{
-              cursor: 'pointer',
-              height: '40px',
-              width: '50px',
-              border: 'none',
-              backgroundColor: '#6c757d',
-              color: 'white'
-            }}
-          >
+
+          <ShowMessagesButton style={updateTodoStyle} message={message}>
             <SecurityUpdateGoodIcon />
-          </button>
+          </ShowMessagesButton>
         </form>
       )}
 
-      <button
-        onClick={editHandler}
-        style={{
-          backgroundColor: '#ffc107',
-          color: 'black',
-          border: 'none',
-          cursor: 'pointer',
-          textAlign: 'center',
-          height: '40px',
-          width: '50px'
-        }}
-      >
+      <button onClick={editHandler} style={editTodoStyle}>
         <EditIcon fontSize='small' />
       </button>
     </div>

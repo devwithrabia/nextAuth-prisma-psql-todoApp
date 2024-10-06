@@ -10,7 +10,15 @@ interface IProps {
 
 const FilterButton: FC<IProps> = ({ showAll, showActive, resolvedTodo }) => {
   return (
-    <div style={{ borderTop: '1px solid rgba(0,0,0,.125)', width: '100%', textAlign: 'center', padding: '20px' }}>
+    <div
+      style={{
+        borderTop: '1px solid rgba(0,0,0,.125)',
+        width: '100%',
+        textAlign: 'center',
+        padding: '20px',
+        boxSizing: 'border-box'
+      }}
+    >
       <ButtonGroup variant='contained' aria-label='Basic button group'>
         <Button onClick={showAll}>All</Button>
         <Button onClick={showActive}> Active</Button>

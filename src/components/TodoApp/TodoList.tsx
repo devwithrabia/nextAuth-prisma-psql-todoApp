@@ -9,9 +9,11 @@ interface IProps {
   setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
   todo: GetData
   indx: number
+  message: string
+  setMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
-const TodoList: FC<IProps> = ({ todos, setTodos, todo, indx }) => {
+const TodoList: FC<IProps> = ({ todos, setTodos, todo, indx, message, setMessage }) => {
   return (
     <div
       style={{
@@ -24,7 +26,7 @@ const TodoList: FC<IProps> = ({ todos, setTodos, todo, indx }) => {
       }}
       key={indx}
     >
-      <ChangeStatus todo={todo} todos={todos} setTodos={setTodos} />
+      <ChangeStatus todo={todo} todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
 
       <p
         style={{
@@ -40,9 +42,9 @@ const TodoList: FC<IProps> = ({ todos, setTodos, todo, indx }) => {
         {todo.title}
       </p>
 
-      <ChangeTodo todo={todo} todos={todos} setTodos={setTodos} />
+      <ChangeTodo todo={todo} todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
 
-      <DeleteTodo todo={todo} setTodos={setTodos} todos={todos} />
+      <DeleteTodo todo={todo} setTodos={setTodos} todos={todos} message={message} setMessage={setMessage} />
     </div>
   )
 }

@@ -1,13 +1,28 @@
 import { FC, FormEvent, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import { GetData } from '@/types'
+import Slide, { SlideProps } from '@mui/material/Slide'
+import { TransitionProps } from '@mui/material/transitions'
+import { Fade, Snackbar } from '@mui/material'
+import ShowMessagesButton from './ShowMessagesButton'
 
 interface IProps {
   todos: GetData[]
   setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
+  message: string
+  setMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
-const AddTodo: FC<IProps> = ({ todos, setTodos }) => {
+const buttonStyle = {
+  backgroundColor: '#007bff',
+  border: 'none',
+  padding: '8px',
+  borderBottomRightRadius: '5px',
+  borderTopRightRadius: '5px',
+  cursor: 'pointer'
+}
+
+const AddTodo: FC<IProps> = ({ todos, setTodos, message, setMessage }) => {
   const [input, setInput] = useState<string>('')
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
@@ -32,15 +47,9 @@ const AddTodo: FC<IProps> = ({ todos, setTodos }) => {
 
       setTodos([...todos, addItem])
 
-      // console.log(data.todo)
-
-      // if (res.ok) {
-      //   router.push('/login')
-      //   setError('')
-      // } else {
-      //   console.error('Registration failed')
-      //   setError('registeration failed')
-      // }
+      if (res.status === 201) {
+        setMessage('Todo Added')
+      }
     } catch (err) {
       console.log(err)
     }
@@ -83,20 +92,9 @@ const AddTodo: FC<IProps> = ({ todos, setTodos }) => {
           }}
         />
 
-        <button
-          type='submit'
-          style={{
-            backgroundColor: '#007bff',
-            border: 'none',
-            padding: '8px',
-            boxSizing: 'border-box',
-            borderBottomRightRadius: '5px',
-            borderTopRightRadius: '5px',
-            cursor: 'pointer'
-          }}
-        >
+        <ShowMessagesButton style={buttonStyle} message={message}>
           <AddIcon fontSize='small' sx={{ backgroundColor: '#fff', color: '#007bff' }} />
-        </button>
+        </ShowMessagesButton>
       </div>
     </form>
   )
