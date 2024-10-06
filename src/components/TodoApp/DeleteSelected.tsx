@@ -16,7 +16,7 @@ const styleButton = {
   color: '#dc3545',
   width: '100%',
   height: '35px',
-
+  cursor: 'pointer',
   '&:hover': {
     backgroundColor: '#dc3545',
     color: 'white'
