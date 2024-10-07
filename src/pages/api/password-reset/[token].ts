@@ -18,7 +18,7 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const existToken = await prisma.forgotPasswordToken.findUnique({
       where: {
-        token: token,
+        token: token as string,
         //this token will be expired in 4 hours:
         createdAt: { gt: new Date(Date.now() - 1000 * 60 * 60 * 4) },
         resetAt: null

@@ -12,9 +12,8 @@ interface FormData {
 
 // interface  ParsedUrlQuery extends IProps
 
-const PasswordReset: NextPage<ParsedUrlQuery> = ({ token }) => {
-  const router = useRouter()
-
+const PasswordReset: NextPage<ParsedUrlQuery> = ({ token }: any) => {
+  console.log(token)
   const [error, setError] = useState('')
 
   const {
