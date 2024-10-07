@@ -16,11 +16,11 @@ const styleButton = {
   color: '#dc3545',
   width: '100%',
   height: '35px',
-  cursor: 'pointer',
-  '&:hover': {
-    backgroundColor: '#dc3545',
-    color: 'white'
-  }
+  cursor: 'pointer'
+  // '&:hover': {
+  //   backgroundColor: '#dc3545',
+  //   color: 'white'
+  // }
 }
 const DeleteSelected: FC<IProps> = ({ todos, setTodos, message, setMessage }) => {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
