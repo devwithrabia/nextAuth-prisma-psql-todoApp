@@ -8,12 +8,11 @@ interface IProps {
   todos: GetData[]
   setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
   todo: GetData
-  key: Key
   message: string
   setMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
-const TodoList: FC<IProps> = ({ todos, setTodos, todo, key, message, setMessage }) => {
+const TodoList: FC<IProps> = ({ todos, setTodos, todo, message, setMessage }) => {
   return (
     <div
       style={{
@@ -24,7 +23,7 @@ const TodoList: FC<IProps> = ({ todos, setTodos, todo, key, message, setMessage 
         border: '1px solid #ced4da',
         height: '40px'
       }}
-      key={key}
+      key={todo.id}
     >
       <ChangeStatus todo={todo} todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
 

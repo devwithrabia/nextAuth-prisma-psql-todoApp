@@ -80,26 +80,12 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                 .filter(todo => todo.isCompleted === done)
                 .map((todo: GetData, indx) => {
                   return (
-                    <TodoList
-                      todos={todos}
-                      setTodos={setTodos}
-                      todo={todo}
-                      key={indx}
-                      message={message}
-                      setMessage={setMessage}
-                    />
+                    <TodoList todos={todos} setTodos={setTodos} todo={todo} message={message} setMessage={setMessage} />
                   )
                 })
             : todos.map((todo: GetData, indx) => {
                 return (
-                  <TodoList
-                    todos={todos}
-                    setTodos={setTodos}
-                    todo={todo}
-                    key={indx}
-                    message={message}
-                    setMessage={setMessage}
-                  />
+                  <TodoList todos={todos} setTodos={setTodos} todo={todo} message={message} setMessage={setMessage} />
                 )
               })}
           <DeleteSelected todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
