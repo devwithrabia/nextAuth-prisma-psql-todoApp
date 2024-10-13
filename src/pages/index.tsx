@@ -1,5 +1,5 @@
-import AddTodo from '@/components/TodoApp/AddTodo'
-import DeleteSelected from '@/components/TodoApp/DeleteSelected'
+import AddTodo from '@/components/TodoApp/AddTodo/AddTodo'
+import DeleteSelected from '@/components/TodoApp/DeleteSelected/DeleteSelected'
 import FilterButton from '@/components/TodoApp/FilterButton'
 import TodoList from '@/components/TodoApp/TodoList'
 import { prisma } from '@/lib/db'

@@ -1,24 +1,50 @@
-import { ChangeEventHandler, FormEventHandler, ReactNode } from 'react'
-
-export interface inputProps {
-  type: string
-  placeholder?: string
-  value?: string
-  onChange?: ChangeEventHandler<HTMLInputElement>
-}
-
-export interface formProps {
-  children: ReactNode
-  onSubmit?: FormEventHandler<HTMLFormElement>
-}
-
-export interface buttonProps {
-  type?: 'button' | 'submit' | 'reset'
-  //reactNode means instead of text user can pass icon whose type will be ReactNode
-  text: 'string' | ReactNode
-}
 export interface GetData {
   id: string
   title: string | null
   isCompleted: boolean
+}
+
+export interface StyleDeleteSelected {
+  border: string
+  backgroundColor: string
+  color: string
+  width: string
+  height: string
+  cursor: string
+  '&:hover': {
+    backgroundColor: string
+    color: string
+  }
+}
+
+export interface StyleAddTodo {
+  backgroundColor: string
+  border: string
+  padding: string
+  borderBottomRightRadius: string
+  borderTopRightRadius: string
+  cursor: string
+}
+
+export interface StyleChangeStatus {
+  backgroundColor: string
+  cursor: string
+  textAlign: string
+  height: string
+  width: string
+  borderColor: string
+  borderRight: string
+}
+
+export interface StyleDeleteTodo {
+  color: string
+  backgroundColor: string
+  border: string
+  borderBottomRightRadius: string
+  borderTopRightRadius: string
+  borderTopLeftRadius: string
+  textAlign: string
+  height: string
+  width: string
+  cursor: string
 }
