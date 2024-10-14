@@ -1,8 +1,9 @@
 import { GetData } from '@/types'
 import { FC, Key } from 'react'
-import ChangeStatus from './ChangeStatus'
-import ChangeTodo from './ChangeTodo'
-import DeleteTodo from './DeleteTodo'
+
+import ChangeTodo from './ChangeTodo/ChangeTodo'
+import ChangeStatus from './ChangeStatus/ChangeStatus'
+import DeleteTodo from './DeleteTodo/DeleteTodo'
 
 interface IProps {
   todos: GetData[]

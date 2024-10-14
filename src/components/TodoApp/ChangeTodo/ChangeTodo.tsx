@@ -4,7 +4,8 @@ import EditAttributesIcon from '@mui/icons-material/EditAttributes'
 import SecurityUpdateGoodIcon from '@mui/icons-material/SecurityUpdateGood'
 import EditIcon from '@mui/icons-material/Edit'
 import { GetData } from '@/types'
-import ShowMessagesButton from './ShowMessagesButton'
+import { changeTodoStyle } from './style'
+import ShowMessagesButton from '../showMessageButton/ShowMessagesButton'
 
 interface TodoProps {
   todo: GetData
@@ -25,14 +26,14 @@ const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessage 
     width: '50px'
   }
 
-  const updateTodoStyle: CSSProperties = {
-    cursor: 'pointer',
-    height: '40px',
-    width: '50px',
-    border: 'none',
-    backgroundColor: '#6c757d',
-    color: 'white'
-  }
+  // const updateTodoStyle: CSSProperties = {
+  //   cursor: 'pointer',
+  //   height: '40px',
+  //   width: '50px',
+  //   border: 'none',
+  //   backgroundColor: '#6c757d',
+  //   color: 'white'
+  // }
   const [input, setInput] = useState<string>('')
   const [edit, setIsEdit] = useState(false)
 
@@ -96,7 +97,7 @@ const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessage 
             onChange={e => setInput(e.target.value)}
           />
 
-          <ShowMessagesButton style={updateTodoStyle} message={message}>
+          <ShowMessagesButton message={message} styleButton={changeTodoStyle}>
             <SecurityUpdateGoodIcon />
           </ShowMessagesButton>
         </form>

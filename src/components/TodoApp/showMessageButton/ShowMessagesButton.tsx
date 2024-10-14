@@ -1,14 +1,17 @@
 import { Fade, Slide, SlideProps, Snackbar } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
-import { CSSProperties, FC, ReactNode, useState } from 'react'
+import { FC, ReactNode, useState } from 'react'
+import { GetData, StyleAddTodo, StyleChangeStatus, StyleDeleteSelected, StyleDeleteTodo } from '@/types'
+import { StyledButton } from './styles'
 
 interface IProps {
   children: ReactNode
-  style: CSSProperties | undefined
   message: string
+  // styleButton: StyleDeleteSelected | StyleAddTodo
+  styleButton: any
 }
 
-const ShowMessagesButton: FC<IProps> = ({ children, style, message }) => {
+const ShowMessagesButton: FC<IProps> = ({ children, message, styleButton }) => {
   const [state, setState] = useState<{
     open: boolean
     Transition: React.ComponentType<
@@ -48,9 +51,9 @@ const ShowMessagesButton: FC<IProps> = ({ children, style, message }) => {
   }
   return (
     <>
-      <button type='submit' onClick={handleClick(SlideTransition)} style={style}>
+      <StyledButton type='submit' onClick={handleClick(SlideTransition)} styleButton={styleButton}>
         {children}
-      </button>
+      </StyledButton>
 
       <Snackbar
         open={state.open}

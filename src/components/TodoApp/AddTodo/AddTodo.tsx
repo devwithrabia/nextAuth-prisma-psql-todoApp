@@ -4,22 +4,14 @@ import { GetData } from '@/types'
 import Slide, { SlideProps } from '@mui/material/Slide'
 import { TransitionProps } from '@mui/material/transitions'
 import { Fade, Snackbar } from '@mui/material'
-import ShowMessagesButton from './ShowMessagesButton'
+import { addTodoStyle } from './style'
+import ShowMessagesButton from '../showMessageButton/ShowMessagesButton'
 
 interface IProps {
   todos: GetData[]
   setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
   message: string
   setMessage: React.Dispatch<React.SetStateAction<string>>
-}
-
-const buttonStyle = {
-  backgroundColor: '#007bff',
-  border: 'none',
-  padding: '8px',
-  borderBottomRightRadius: '5px',
-  borderTopRightRadius: '5px',
-  cursor: 'pointer'
 }
 
 const AddTodo: FC<IProps> = ({ todos, setTodos, message, setMessage }) => {
@@ -92,8 +84,8 @@ const AddTodo: FC<IProps> = ({ todos, setTodos, message, setMessage }) => {
           }}
         />
 
-        <ShowMessagesButton style={buttonStyle} message={message}>
-          <AddIcon fontSize='small' sx={{ backgroundColor: '#fff', color: '#007bff' }} />
+        <ShowMessagesButton message={message} styleButton={addTodoStyle}>
+          <AddIcon fontSize='small' sx={{ backgroundColor: '#fff', color: '#007bff', borderRadius: '50%' }} />
         </ShowMessagesButton>
       </div>
     </form>

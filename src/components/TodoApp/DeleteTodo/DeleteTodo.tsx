@@ -2,7 +2,8 @@ import { CSSProperties, FC, FormEvent } from 'react'
 import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { GetData } from '@/types'
-import ShowMessagesButton from './ShowMessagesButton'
+import { deleteTodoStyle } from './style'
+import ShowMessagesButton from '../showMessageButton/ShowMessagesButton'
 
 interface GetDataProps {
   todo: GetData
@@ -13,18 +14,6 @@ interface GetDataProps {
 }
 
 const DeleteTodo: FC<GetDataProps> = ({ todo, todos, setTodos, message, setMessage }) => {
-  const deleteButtonStyle: CSSProperties = {
-    color: todo.isCompleted ? 'black' : '#fff',
-    backgroundColor: todo.isCompleted ? '#ffc107' : '#dc3545',
-    border: 'none',
-    borderBottomRightRadius: '5px',
-    borderTopRightRadius: '5px',
-    borderTopLeftRadius: 'none',
-    textAlign: 'center',
-    height: '40px',
-    width: '50px',
-    cursor: 'pointer'
-  }
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -42,6 +31,10 @@ const DeleteTodo: FC<GetDataProps> = ({ todo, todos, setTodos, message, setMessa
       const data = await res.json()
       const deleteItem = data.deleteTodo
 
+      if (res.status === 201) {
+        setMessage('Delete Todo')
+      }
+
       setTodos(
         todos.filter(item => {
           if (item.id !== deleteItem.id) {
@@ -49,22 +42,16 @@ const DeleteTodo: FC<GetDataProps> = ({ todo, todos, setTodos, message, setMessa
           }
         })
       )
-
-      if (res.status === 201) {
-        setMessage('Delete Todo')
-      }
     } catch (err) {
       console.log(err)
     }
   }
   return (
-    <div>
-      <form onSubmit={submitHandler}>
-        <ShowMessagesButton style={deleteButtonStyle} message={message}>
-          <DeleteIcon fontSize='small' fontStyle='#ccc' />
-        </ShowMessagesButton>
-      </form>
-    </div>
+    <form onSubmit={submitHandler}>
+      <ShowMessagesButton message={message} styleButton={deleteTodoStyle(todo)}>
+        <DeleteIcon fontSize='small' fontStyle='#ccc' />
+      </ShowMessagesButton>
+    </form>
   )
 }
 
