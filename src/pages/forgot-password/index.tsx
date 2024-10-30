@@ -19,7 +19,6 @@ const ForgotPassword: NextPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors }
   } = useForm<FormData>()
 
@@ -28,13 +27,7 @@ const ForgotPassword: NextPage = () => {
       onSubmit={handleSubmit(async (data, e) => {
         console.log(data)
 
-        //when user submitted form all fields should be empty:
-
-        // e?.target.reset()
-
         const { email } = data
-
-        //now post all data to the api route:
 
         try {
           const res = await fetch('/api/forgot-password', {

@@ -1,9 +1,8 @@
-import { CSSProperties, FC, FormEvent } from 'react'
-import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined'
+import { FC, FormEvent } from 'react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { GetData } from '@/types'
 import { deleteTodoStyle } from './style'
-import ShowMessagesButton from '../showMessageButton/ShowMessagesButton'
+import { ShowMessagesButton } from '../showMessageButton/ShowMessagesButton'
 
 interface GetDataProps {
   todo: GetData
@@ -13,7 +12,7 @@ interface GetDataProps {
   setMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
-const DeleteTodo: FC<GetDataProps> = ({ todo, todos, setTodos, message, setMessage }) => {
+export const DeleteTodo: FC<GetDataProps> = ({ todo, todos, setTodos, message, setMessage }) => {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -49,10 +48,8 @@ const DeleteTodo: FC<GetDataProps> = ({ todo, todos, setTodos, message, setMessa
   return (
     <form onSubmit={submitHandler}>
       <ShowMessagesButton message={message} styleButton={deleteTodoStyle(todo)}>
-        <DeleteIcon fontSize='small' fontStyle='#ccc' />
+        <DeleteIcon fontSize='small' />
       </ShowMessagesButton>
     </form>
   )
 }
-
-export default DeleteTodo

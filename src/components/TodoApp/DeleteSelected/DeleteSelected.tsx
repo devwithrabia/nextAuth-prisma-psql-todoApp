@@ -1,7 +1,7 @@
 import { FC, FormEvent } from 'react'
 import { GetData } from '@/types'
-import { styleDeleteSelected } from './style'
-import ShowMessagesButton from '../showMessageButton/ShowMessagesButton'
+import { Form, styleDeleteSelected } from './style'
+import { ShowMessagesButton } from '../showMessageButton/ShowMessagesButton'
 
 interface IProps {
   todos: GetData[]
@@ -10,7 +10,7 @@ interface IProps {
   setMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
-const DeleteSelected: FC<IProps> = ({ todos, setTodos, message, setMessage }) => {
+export const DeleteSelected: FC<IProps> = ({ todos, setTodos, message, setMessage }) => {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -38,12 +38,10 @@ const DeleteSelected: FC<IProps> = ({ todos, setTodos, message, setMessage }) =>
     }
   }
   return (
-    <form onSubmit={submitHandler} style={{ width: '100%', fontWeight: '400', fontFamily: 'sans-serif' }}>
+    <Form onSubmit={submitHandler}>
       <ShowMessagesButton message={message} styleButton={styleDeleteSelected}>
         Delete Selected
       </ShowMessagesButton>
-    </form>
+    </Form>
   )
 }
-
-export default DeleteSelected

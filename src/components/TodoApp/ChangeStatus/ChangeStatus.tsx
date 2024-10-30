@@ -4,7 +4,7 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { GetData } from '@/types'
 import { changeStatusStyle } from './style'
-import ShowMessagesButton from '../showMessageButton/ShowMessagesButton'
+import { ShowMessagesButton } from '../showMessageButton/ShowMessagesButton'
 
 interface TodoProps {
   todo: GetData
@@ -14,7 +14,7 @@ interface TodoProps {
   setMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
-const ChangeStatus: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessage }) => {
+export const ChangeStatus: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessage }) => {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -30,8 +30,6 @@ const ChangeStatus: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessag
       })
 
       const data = await res.json()
-
-      console.log(data.changeStatus)
 
       const status = data.changeStatus
 
@@ -76,5 +74,3 @@ const ChangeStatus: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessag
     </form>
   )
 }
-
-export default ChangeStatus

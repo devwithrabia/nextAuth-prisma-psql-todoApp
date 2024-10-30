@@ -7,14 +7,6 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
     const { password } = req.body
 
     const token = req.query.token
-    console.log(token)
-
-    // const { token } = req.query
-
-    console.log(password, token)
-
-    //find existing token in data base(forgotPasswordToken)
-    //here existToken is the the object on which we target:
 
     const existToken = await prisma.forgotPasswordToken.findUnique({
       where: {
@@ -52,8 +44,9 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
         resetAt: new Date()
       }
     })
+
     //when user changed password token's resetAt property should be update
-    // await prisma.$transaction([updatePassword, updateToken])
+
     return res
       .status(200)
       .json({ message: 'user password updated successfully', user: updatePassword, token: updateToken })

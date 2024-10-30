@@ -1,53 +1,37 @@
-import { CSSProperties, FC, FormEvent, useEffect, useState } from 'react'
-import ChecklistRtlSharpIcon from '@mui/icons-material/ChecklistRtlSharp'
-import EditAttributesIcon from '@mui/icons-material/EditAttributes'
-import SecurityUpdateGoodIcon from '@mui/icons-material/SecurityUpdateGood'
+import { FC, FormEvent, useRef, useState } from 'react'
 import EditIcon from '@mui/icons-material/Edit'
 import { GetData } from '@/types'
-import { changeTodoStyle } from './style'
-import ShowMessagesButton from '../showMessageButton/ShowMessagesButton'
+import { EditTodoStyle, Input, changeTodoStyle } from './style'
+import { ShowMessagesButton } from '../showMessageButton/ShowMessagesButton'
+import FlipCameraAndroidTwoToneIcon from '@mui/icons-material/FlipCameraAndroidTwoTone'
 
 interface TodoProps {
   todo: GetData
   todos: GetData[]
-  setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
   message: string
   setMessage: React.Dispatch<React.SetStateAction<string>>
+  setTodos: React.Dispatch<React.SetStateAction<GetData[]>>
 }
 
-const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessage }) => {
-  const editTodoStyle: CSSProperties = {
-    backgroundColor: '#ffc107',
-    color: 'black',
-    border: 'none',
-    cursor: 'pointer',
-    textAlign: 'center',
-    height: '40px',
-    width: '50px'
-  }
+export const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessage }) => {
+  const [input, setInput] = useState<any>(todo.title)
 
-  // const updateTodoStyle: CSSProperties = {
-  //   cursor: 'pointer',
-  //   height: '40px',
-  //   width: '50px',
-  //   border: 'none',
-  //   backgroundColor: '#6c757d',
-  //   color: 'white'
-  // }
-  const [input, setInput] = useState<string>('')
-  const [edit, setIsEdit] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+
+  const inputRef = useRef<any>(null)
 
   const editHandler = () => {
     if (todo.isCompleted) {
       return
     }
-    setIsEdit(!edit)
+    setIsVisible(!isVisible)
+    inputRef.current.focus()
   }
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    setInput('')
+    console.log(input)
 
     try {
       const res = await fetch('/api/TodoApp/changetodo', {
@@ -63,8 +47,6 @@ const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessage 
 
       const data = await res.json()
       const changeTodo = data.changeTodo
-
-      console.log(data.changeTodo)
 
       setTodos(
         todos.map(item => {
@@ -87,27 +69,25 @@ const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessage 
     }
   }
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      {edit && (
-        <form onSubmit={submitHandler} style={{ display: 'flex' }}>
-          <input
-            type='text'
-            placeholder='type your text here..'
-            value={input}
-            onChange={e => setInput(e.target.value)}
-          />
+    <form onSubmit={submitHandler} style={{ display: 'flex', flex: 1 }}>
+      <Input
+        type='text'
+        placeholder='Todos'
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        ref={inputRef}
+        isCompleted={todo.isCompleted}
+      />
 
-          <ShowMessagesButton message={message} styleButton={changeTodoStyle}>
-            <SecurityUpdateGoodIcon />
-          </ShowMessagesButton>
-        </form>
+      {isVisible ? (
+        <ShowMessagesButton message={message} styleButton={changeTodoStyle}>
+          <FlipCameraAndroidTwoToneIcon fontSize='small' />
+        </ShowMessagesButton>
+      ) : (
+        <EditTodoStyle>
+          <EditIcon fontSize='small' onClick={editHandler} />
+        </EditTodoStyle>
       )}
-
-      <button onClick={editHandler} style={editTodoStyle}>
-        <EditIcon fontSize='small' />
-      </button>
-    </div>
+    </form>
   )
 }
-
-export default ChangeTodo

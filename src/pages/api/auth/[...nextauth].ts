@@ -47,11 +47,6 @@ export const authOptions: NextAuthOptions = {
           return null
         }
 
-        //we should return user matching with login credentials,so this user will be normal user,which is in jwt func,
-        //if we dont return it user cant login
-
-        //this all properties will go in user object
-
         return {
           id: existingUser.id + '',
           username: existingUser.username,

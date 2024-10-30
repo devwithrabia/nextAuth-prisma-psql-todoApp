@@ -13,7 +13,7 @@ interface FormData {
   repeatPassword: string
 }
 
-const Register: NextPage = () => {
+const Login: NextPage = () => {
   const router = useRouter()
 
   const [error, setError] = useState('')
@@ -21,15 +21,12 @@ const Register: NextPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors }
   } = useForm<FormData>()
 
   return (
     <form
       onSubmit={handleSubmit(async data => {
-        console.log(data)
-
         const { email, password } = data
 
         //now call signIn Api from next auth:
@@ -38,8 +35,6 @@ const Register: NextPage = () => {
           email,
           password
         })
-
-        console.log(res)
 
         if (res?.error) {
           console.log(res.error)
@@ -117,4 +112,4 @@ const Register: NextPage = () => {
   )
 }
 
-export default Register
+export default Login

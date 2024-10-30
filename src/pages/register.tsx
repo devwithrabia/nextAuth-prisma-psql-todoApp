@@ -26,10 +26,6 @@ const Register: NextPage = () => {
   return (
     <form
       onSubmit={handleSubmit(async (data, e) => {
-        console.log(data)
-
-        //when user submitted form all fields should be empty:
-
         // e?.target.reset()
 
         const { username, email, password } = data
@@ -50,8 +46,6 @@ const Register: NextPage = () => {
           })
 
           const data = await res.json()
-
-          console.log(data.user)
 
           if (res.ok) {
             router.push('/login')

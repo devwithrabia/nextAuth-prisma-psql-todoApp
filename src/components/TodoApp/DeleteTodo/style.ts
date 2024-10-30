@@ -5,12 +5,11 @@ export const deleteTodoStyle = (todo: GetData) => {
     color: todo.isCompleted ? 'black' : '#fff',
     backgroundColor: todo.isCompleted ? '#ffc107' : '#dc3545',
     border: 'none',
-    borderBottomRightRadius: '5px',
-    borderTopRightRadius: '5px',
-    borderTopLeftRadius: 'none',
+    borderBottomRightRadius: '4px',
+    borderRadius: '4px',
     textAlign: 'center',
     height: '40px',
-    width: '50px',
+    width: '40px',
     cursor: 'pointer'
   }
 }
