@@ -14,6 +14,8 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   //authenticate user:
   const { data: session, status } = useSession()
 
+  console.log(session)
+
   const router = useRouter()
 
   if (status === 'unauthenticated') {
@@ -45,24 +47,41 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   }
 
   return (
-    <StyledBox
-      display='flex'
-      flexDirection='column'
-      alignItems='center'
-      maxWidth={500}
-      marginTop='50px'
-      margin='auto'
-      boxShadow='10px 10px 5px grey'
-    >
-      <AddTodo todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
+    <>
+      <h1>
+        Welcome Dear <span style={{ color: 'red' }}>{session?.user.name}</span>
+      </h1>
 
-      <Container>
-        {todos.length === 0 && <i>Add Bugs... Or Change View...</i>}
+      <StyledBox
+        display='flex'
+        flexDirection='column'
+        alignItems='center'
+        maxWidth={500}
+        marginTop='50px'
+        margin='auto'
+        boxShadow='10px 10px 5px grey'
+      >
+        <AddTodo todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
 
-        {sortTodos !== null
-          ? todos
-              .filter(todo => todo.isCompleted === sortTodos)
-              .map((todo: GetData) => {
+        <Container>
+          {todos.length === 0 && <i>Add Bugs... Or Change View...</i>}
+
+          {sortTodos !== null
+            ? todos
+                .filter(todo => todo.isCompleted === sortTodos)
+                .map((todo: GetData) => {
+                  return (
+                    <TodoList
+                      todos={todos}
+                      setTodos={setTodos}
+                      todo={todo}
+                      message={message}
+                      setMessage={setMessage}
+                      key={todo.id}
+                    />
+                  )
+                })
+            : todos.map((todo: GetData) => {
                 return (
                   <TodoList
                     todos={todos}
@@ -73,25 +92,14 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                     key={todo.id}
                   />
                 )
-              })
-          : todos.map((todo: GetData) => {
-              return (
-                <TodoList
-                  todos={todos}
-                  setTodos={setTodos}
-                  todo={todo}
-                  message={message}
-                  setMessage={setMessage}
-                  key={todo.id}
-                />
-              )
-            })}
+              })}
 
-        <DeleteSelected todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
-      </Container>
+          <DeleteSelected todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
+        </Container>
 
-      <FilterButton showAll={showAll} showActive={showActive} resolvedTodo={resolvedTodo} />
-    </StyledBox>
+        <FilterButton showAll={showAll} showActive={showActive} resolvedTodo={resolvedTodo} />
+      </StyledBox>
+    </>
   )
 }
 
