@@ -3,8 +3,8 @@ import { CSSProperties, FC, FormEvent } from 'react'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { GetData } from '@/types'
-import { BorderColor } from '@mui/icons-material'
-import ShowMessagesButton from './ShowMessagesButton'
+import { changeStatusStyle } from './style'
+import { ShowMessagesButton } from '../showMessageButton/ShowMessagesButton'
 
 interface TodoProps {
   todo: GetData
@@ -14,17 +14,7 @@ interface TodoProps {
   setMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
-const ChangeStatus: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessage }) => {
-  const buttonStyle: CSSProperties = {
-    backgroundColor: 'white',
-    cursor: 'pointer',
-    textAlign: 'center',
-    height: '40px',
-    width: '35px',
-    borderColor: todo.isCompleted ? 'rgb(195, 251, 165)' : 'rgb(200, 218, 247)',
-    borderRight: 'none'
-  }
-
+export const ChangeStatus: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessage }) => {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -40,8 +30,6 @@ const ChangeStatus: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessag
       })
 
       const data = await res.json()
-
-      console.log(data.changeStatus)
 
       const status = data.changeStatus
 
@@ -66,27 +54,23 @@ const ChangeStatus: FC<TodoProps> = ({ todo, todos, setTodos, message, setMessag
     }
   }
   return (
-    <div>
-      <form onSubmit={submitHandler}>
-        <ShowMessagesButton style={buttonStyle} message={message}>
-          {todo.isCompleted ? (
-            <CheckCircleIcon
-              sx={{
-                color: 'rgb(108, 117, 125)',
-                BorderColor: '#17a2b8'
-              }}
-            />
-          ) : (
-            <RadioButtonUncheckedIcon
-              sx={{
-                color: '#17a2b8'
-              }}
-            />
-          )}
-        </ShowMessagesButton>
-      </form>
-    </div>
+    <form onSubmit={submitHandler}>
+      <ShowMessagesButton message={message} styleButton={changeStatusStyle(todo)}>
+        {todo.isCompleted ? (
+          <CheckCircleIcon
+            sx={{
+              color: 'rgb(108, 117, 125)',
+              BorderColor: '#17a2b8'
+            }}
+          />
+        ) : (
+          <RadioButtonUncheckedIcon
+            sx={{
+              color: '#17a2b8'
+            }}
+          />
+        )}
+      </ShowMessagesButton>
+    </form>
   )
 }
-
-export default ChangeStatus

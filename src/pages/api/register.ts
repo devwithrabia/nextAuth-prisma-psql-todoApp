@@ -5,7 +5,6 @@ import bcrypt from 'bcryptjs'
 const POST = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { email, password, username } = req.body
-    console.log(email, username)
 
     //check if email already exist:
     const existUserByEmail = await prisma.user.findUnique({

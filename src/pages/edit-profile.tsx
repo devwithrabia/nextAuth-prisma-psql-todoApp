@@ -1,17 +1,13 @@
-import { UpdateUserInfo } from '@/components/UpdateUserInfo'
-import { UpdateUserPassword } from '@/components/UpdateUserPassword'
+import { UpdateUserInfo } from '@/components/EditProfile/UpdateUserInfo'
+import { UpdateUserPassword } from '@/components/EditProfile/UpdateUserPassword'
 import { NextPage } from 'next'
 
 const EditProfile: NextPage = () => {
   return (
     <>
-      <div style={{ height: '35vh' }}>
-        <UpdateUserInfo />
-      </div>
+      <UpdateUserInfo />
 
-      <div style={{ height: '40vh' }}>
-        <UpdateUserPassword />
-      </div>
+      <UpdateUserPassword />
     </>
   )
 }

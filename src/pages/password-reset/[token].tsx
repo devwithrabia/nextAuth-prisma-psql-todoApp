@@ -26,16 +26,9 @@ const PasswordReset: NextPage<ParsedUrlQuery> = ({ token }: any) => {
   return (
     <form
       onSubmit={handleSubmit(async (data, e) => {
-        console.log(data)
-
-        //when user submitted form all fields should be empty:
-
         e?.target.reset()
 
         const { password } = data
-        console.log(token)
-
-        //now post all data to the api route:
 
         try {
           const res = await fetch(`/api/password-reset/${token}`, {

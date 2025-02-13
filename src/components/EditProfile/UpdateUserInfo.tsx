@@ -1,10 +1,5 @@
-import { FC, useEffect } from 'react'
-
-import { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { FC } from 'react'
 import { useForm } from 'react-hook-form'
-import { useSession } from 'next-auth/react'
 import { Box, Button, TextField, Typography } from '@mui/material'
 
 interface FormData {
@@ -12,31 +7,18 @@ interface FormData {
 }
 
 export const UpdateUserInfo: FC = () => {
-  const { data: session } = useSession()
-
-  // console.log(session)
-  const router = useRouter()
-
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors }
   } = useForm<FormData>()
 
   return (
     <form
       onSubmit={handleSubmit(async (data, e) => {
-        console.log(data)
-
-        //when user submitted form all fields should be empty:
-
         e?.target.reset()
 
         const { username } = data
-        // console.log(username)
-
-        //now post all data to the api route:
 
         try {
           const res = await fetch('/api/update', {
@@ -50,16 +32,6 @@ export const UpdateUserInfo: FC = () => {
           })
 
           const data = await res.json()
-
-          // console.log(data.update.username)
-
-          // if (res.ok) {
-          //   router.push('/login')
-          //   setError('')
-          // } else {
-          //   console.error('Registration failed')
-          //   setError('registeration failed')
-          // }
         } catch (err) {
           console.log(err)
         }

@@ -1,9 +1,8 @@
-import { AppBar, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
 import LocalLibrary from '@mui/icons-material/LocalLibrary'
 import MenuIcon from '@mui/icons-material/Menu'
 import { FC, useState } from 'react'
 import { NavLinks } from './NavLinks'
-import Link from '@mui/material/Link'
 import { signOut, useSession } from 'next-auth/react'
 
 export const AppNavbar: FC = () => {
@@ -22,12 +21,12 @@ export const AppNavbar: FC = () => {
   const { data: session } = useSession()
 
   return (
-    <AppBar position='static'>
+    <AppBar position='static' sx={{ marginBottom: '20px' }}>
       <Toolbar sx={{ background: 'darkblue' }}>
         <IconButton size='large' edge='start' color='inherit' aria-label='logo'>
           <LocalLibrary />
         </IconButton>
-        
+
         <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
           TodoApp
         </Typography>
@@ -68,9 +67,6 @@ export const AppNavbar: FC = () => {
               Home
             </MenuItem>
 
-            <MenuItem href='/dashboard' component='a'>
-              Dashboard
-            </MenuItem>
             {!session ? (
               <>
                 <MenuItem href='/register' component='a'>

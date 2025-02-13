@@ -7,7 +7,6 @@ import bcrypt from 'bcryptjs'
 const POST = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(req, res, authOptions)
 
-  console.log(session?.user.email)
   try {
     const { newPassword, oldPassword } = req.body
 
@@ -45,8 +44,6 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
         password: hashedPassword
       }
     })
-
-    console.log(updatePassword)
 
     return res.status(200).json({ message: 'user password updated successfully', update: updatePassword })
   } catch (error) {

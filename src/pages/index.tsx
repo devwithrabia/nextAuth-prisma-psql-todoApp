@@ -1,18 +1,20 @@
-import AddTodo from '@/components/TodoApp/AddTodo'
-import DeleteSelected from '@/components/TodoApp/DeleteSelected'
-import FilterButton from '@/components/TodoApp/FilterButton'
-import TodoList from '@/components/TodoApp/TodoList'
+import { AddTodo } from '@/components/TodoApp/AddTodo/AddTodo'
+import { DeleteSelected } from '@/components/TodoApp/DeleteSelected/DeleteSelected'
+import { FilterButton } from '@/components/TodoApp/FilterButton/FilterButton'
+import { TodoList } from '@/components/TodoApp/TodoList/TodoList'
 import { prisma } from '@/lib/db'
+import { Container, StyledBox } from '@/styles/homeStyles'
 import { GetData } from '@/types'
-import { Box } from '@mui/material'
 import { InferGetServerSidePropsType, NextPage } from 'next'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ getTodo }) => {
+const Home: NextPage = () => {
   //authenticate user:
   const { data: session, status } = useSession()
+
+  console.log(session)
 
   const router = useRouter()
 
@@ -22,96 +24,121 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
   //Todo App:
 
-  const [todos, setTodos] = useState<GetData[]>(getTodo)
+  const [todos, setTodos] = useState<GetData[]>([]) // ✅ Default empty state to prevent SSR mismatch
 
-  const [done, setDone] = useState<boolean | null>()
+  const [isMounted, setIsMounted] = useState(false) // ✅ Ensures hydration consistency
+
+  useEffect(() => {
+    setIsMounted(true) // ✅ Marks component as mounted
+
+    const storedTodos = localStorage.getItem('Todos')
+    if (storedTodos) {
+      setTodos(JSON.parse(storedTodos) as GetData[])
+    }
+  }, [])
+  //add state in localStorage:
+
+  useEffect(() => {
+    if (isMounted) {
+      localStorage.setItem('Todos', JSON.stringify(todos))
+    }
+  }, [todos, isMounted])
+
+  const [sortTodos, setSortTodos] = useState<boolean | null>()
 
   const [message, setMessage] = useState('')
 
+  //store state in localStorage:
+
   useEffect(() => {
-    setDone(null)
+    setSortTodos(null)
   }, [])
 
   const showAll = () => {
-    setDone(null)
+    setSortTodos(null)
   }
 
   const showActive = () => {
-    setDone(false)
+    setSortTodos(false)
   }
 
   const resolvedTodo = () => {
-    setDone(true)
+    setSortTodos(true)
   }
 
   return (
     <>
-      <Box
+      <h1>
+        Welcome Dear <span style={{ color: 'red' }}>{session?.user.name}</span>
+      </h1>
+
+      <StyledBox
         display='flex'
         flexDirection='column'
         alignItems='center'
-        maxWidth={550}
+        maxWidth={500}
         marginTop='50px'
         margin='auto'
         boxShadow='10px 10px 5px grey'
-        sx={{
-          backgroundColor: ' rgba(0,0,0,.03)',
-          border: '1px solid rgba(0,0,0,.125)',
-          borderRadius: '0.25rem'
-        }}
       >
         <AddTodo todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px',
-            padding: '20px',
-            width: '100%',
-            backgroundColor: '#fff',
-            boxSizing: 'border-box'
-          }}
-        >
-          {todos.length === 0 && <i>Add Bugs... Or Change View...</i>}
+        <Container>
+          {todos!.length === 0 && <i>Add Bugs... Or Change View...</i>}
 
-          {done !== null
-            ? todos
-                .filter(todo => todo.isCompleted === done)
+          {sortTodos !== null
+            ? todos!
+                .filter(todo => todo.isCompleted === sortTodos)
                 .map((todo: GetData) => {
                   return (
-                    <TodoList todos={todos} setTodos={setTodos} todo={todo} message={message} setMessage={setMessage} />
+                    <TodoList
+                      todos={todos}
+                      setTodos={setTodos}
+                      todo={todo}
+                      message={message}
+                      setMessage={setMessage}
+                      key={todo.id}
+                    />
                   )
                 })
-            : todos.map((todo: GetData) => {
+            : todos?.map((todo: GetData) => {
                 return (
-                  <TodoList todos={todos} setTodos={setTodos} todo={todo} message={message} setMessage={setMessage} />
+                  <TodoList
+                    todos={todos}
+                    setTodos={setTodos}
+                    todo={todo}
+                    message={message}
+                    setMessage={setMessage}
+                    key={todo.id}
+                  />
                 )
               })}
+
           <DeleteSelected todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
-        </div>
+        </Container>
+
         <FilterButton showAll={showAll} showActive={showActive} resolvedTodo={resolvedTodo} />
-      </Box>
+      </StyledBox>
     </>
   )
 }
 
 export default Home
 
-export const getServerSideProps = async () => {
-  const getTodo = await prisma.todo.findMany({
-    select: {
-      title: true,
-      id: true,
-      isCompleted: true
-    },
-    orderBy: {
-      createdAt: 'asc'
-    }
-  })
-  return {
-    props: {
-      getTodo
-    }
-  }
-}
+// export const getServerSideProps = async () => {
+//   const getTodos = await prisma.todo.findMany({
+//     select: {
+//       title: true,
+//       id: true,
+//       isCompleted: true
+//     },
+//     orderBy: {
+//       createdAt: 'asc'
+//     }
+//   })
+//   return {
+//     props: {
+//       getTodos
+//     }
+//   }
+// }

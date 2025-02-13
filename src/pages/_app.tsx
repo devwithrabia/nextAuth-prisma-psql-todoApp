@@ -1,4 +1,4 @@
-import { AppNavbar } from '@/components/AppNavbar'
+import { AppNavbar } from '@/components/NavBar/AppNavbar'
 import '@/styles/globals.css'
 import { SessionProvider } from 'next-auth/react'
 import type { AppProps } from 'next/app'

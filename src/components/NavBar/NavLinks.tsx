@@ -11,9 +11,6 @@ export const NavLinks: FC = () => {
         Home
       </Link>
 
-      <Link href='/dashboard' color='inherit' variant='h6' underline='hover'>
-        Dashboard
-      </Link>
       {!session ? (
         <>
           <Link href='/register' color='inherit' variant='h6' underline='hover'>

@@ -1,6 +1,4 @@
 import { Box, Button, TextField, Typography } from '@mui/material'
-import { NextPage } from 'next'
-import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
