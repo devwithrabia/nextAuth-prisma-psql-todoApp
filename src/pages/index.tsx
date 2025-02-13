@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ getTodos }) => {
+const Home: NextPage = () => {
   //authenticate user:
   const { data: session, status } = useSession()
 
@@ -24,11 +24,31 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
   //Todo App:
 
-  const [todos, setTodos] = useState<GetData[]>(getTodos)
+  const [todos, setTodos] = useState<GetData[]>([]) // ✅ Default empty state to prevent SSR mismatch
+
+  const [isMounted, setIsMounted] = useState(false) // ✅ Ensures hydration consistency
+
+  useEffect(() => {
+    setIsMounted(true) // ✅ Marks component as mounted
+
+    const storedTodos = localStorage.getItem('Todos')
+    if (storedTodos) {
+      setTodos(JSON.parse(storedTodos) as GetData[])
+    }
+  }, [])
+  //add state in localStorage:
+
+  useEffect(() => {
+    if (isMounted) {
+      localStorage.setItem('Todos', JSON.stringify(todos))
+    }
+  }, [todos, isMounted])
 
   const [sortTodos, setSortTodos] = useState<boolean | null>()
 
   const [message, setMessage] = useState('')
+
+  //store state in localStorage:
 
   useEffect(() => {
     setSortTodos(null)
@@ -64,10 +84,10 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         <AddTodo todos={todos} setTodos={setTodos} message={message} setMessage={setMessage} />
 
         <Container>
-          {todos.length === 0 && <i>Add Bugs... Or Change View...</i>}
+          {todos!.length === 0 && <i>Add Bugs... Or Change View...</i>}
 
           {sortTodos !== null
-            ? todos
+            ? todos!
                 .filter(todo => todo.isCompleted === sortTodos)
                 .map((todo: GetData) => {
                   return (
@@ -81,7 +101,7 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
                     />
                   )
                 })
-            : todos.map((todo: GetData) => {
+            : todos?.map((todo: GetData) => {
                 return (
                   <TodoList
                     todos={todos}
@@ -105,20 +125,20 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
 export default Home
 
-export const getServerSideProps = async () => {
-  const getTodos = await prisma.todo.findMany({
-    select: {
-      title: true,
-      id: true,
-      isCompleted: true
-    },
-    orderBy: {
-      createdAt: 'asc'
-    }
-  })
-  return {
-    props: {
-      getTodos
-    }
-  }
-}
+// export const getServerSideProps = async () => {
+//   const getTodos = await prisma.todo.findMany({
+//     select: {
+//       title: true,
+//       id: true,
+//       isCompleted: true
+//     },
+//     orderBy: {
+//       createdAt: 'asc'
+//     }
+//   })
+//   return {
+//     props: {
+//       getTodos
+//     }
+//   }
+// }
