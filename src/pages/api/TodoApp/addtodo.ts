@@ -1,8 +1,12 @@
 import { prisma } from '@/lib/db'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '../auth/[...nextauth]'
 
 const POST = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
+    const session = await getServerSession(req, res, authOptions)
+
     const { input } = req.body
     console.log(input)
 
@@ -13,7 +17,8 @@ const POST = async (req: NextApiRequest, res: NextApiResponse) => {
     //add todo input in database:
     const createTodo = await prisma.todo.create({
       data: {
-        title: input
+        title: input as string,
+        userId: session?.user.email as string
       }
     })
 

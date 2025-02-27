@@ -21,6 +21,7 @@ model User {
   createdAt           DateTime              @default(now())
   updateAt            DateTime              @updatedAt
   ForgotPasswordToken ForgotPasswordToken[]
+  Todo                Todo[]
 }
 
 model ForgotPasswordToken {
@@ -38,4 +39,6 @@ model Todo {
   title       String?
   isCompleted Boolean  @default(false)
   createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [email])
+  userId      String
 }
