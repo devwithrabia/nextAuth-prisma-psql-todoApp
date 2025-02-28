@@ -3,3 +3,7 @@ body{
     margin: 0;
 }
 
+#nprogress .bar {
+    background:darkolivegreen !important; /* Change progress bar color */
+    height: 5px !important; /* Change progress bar thickness */
+  }
