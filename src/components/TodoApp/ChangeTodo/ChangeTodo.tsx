@@ -18,14 +18,19 @@ export const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos, message, setM
 
   const [isVisible, setIsVisible] = useState(false)
 
+  const [isDisabled, setIsDisabled] = useState(true)
+
   const inputRef = useRef<any>(null)
 
   const editHandler = () => {
     if (todo.isCompleted) {
       return
     }
+
+    setIsDisabled(false)
+    setTimeout(() => inputRef.current?.focus(), 0) // Ensure focus after re-render
+
     setIsVisible(!isVisible)
-    inputRef.current.focus()
   }
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
@@ -72,6 +77,7 @@ export const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos, message, setM
     <form onSubmit={submitHandler} style={{ display: 'flex', flex: 1 }}>
       <Input
         type='text'
+        disabled={isDisabled}
         placeholder='Todos'
         value={input}
         onChange={e => setInput(e.target.value)}
@@ -81,7 +87,13 @@ export const ChangeTodo: FC<TodoProps> = ({ todo, todos, setTodos, message, setM
 
       {isVisible ? (
         <ShowMessagesButton message={message} styleButton={changeTodoStyle}>
-          <FlipCameraAndroidTwoToneIcon fontSize='small' />
+          <FlipCameraAndroidTwoToneIcon
+            fontSize='small'
+            onClick={() => {
+              setIsVisible(false)
+              setIsDisabled(true)
+            }}
+          />
         </ShowMessagesButton>
       ) : (
         <EditTodoStyle>
